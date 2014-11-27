@@ -21,9 +21,34 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
             DirSearch(_directory, files, "*.cs");
             DirSearch(_directory, files, "*.vb");
 
-            var totalLines = files.Sum(file => File.ReadLines(file).Count(line => !String.IsNullOrWhiteSpace(line)));
+            var totalLines = 0; 
+            var totalComments = 0;
 
-            Console.WriteLine("Lines Of Code: " + totalLines);
+            var inCommentBlock = false;
+
+            foreach (var file in files)
+            {
+                foreach (var line in File.ReadLines(file))
+                {
+                    totalLines++;
+
+                    if (inCommentBlock || line.Trim().StartsWith("//") || line.Trim().StartsWith("///") || line.Trim().StartsWith("'"))
+                        totalComments++;
+
+                    if (!inCommentBlock && line.Trim().StartsWith("/*"))
+                        inCommentBlock = true;
+
+                    if (inCommentBlock && line.Trim().EndsWith("*/"))
+                        inCommentBlock = false;
+
+                }
+            }
+
+            var commentPercent = ((double)totalComments / totalLines) * 100;
+
+            Console.WriteLine("Total Lines: " + totalLines);
+            Console.WriteLine("Lines Of Comments: " + totalComments);
+            Console.WriteLine("Comments Percentage: " + Math.Round(commentPercent, 0) + "%");
         }
 
         private void DirSearch(string directory, List<String> files, string patternMatch)
