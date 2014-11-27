@@ -47,6 +47,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompatibleSoftware.SolutionMetrics.Analyser\CompatibleSoftware.SolutionMetrics.Analyser.csproj">
+      <Project>{b575f85d-1938-4460-82d0-5855034105b1}</Project>
+      <Name>CompatibleSoftware.SolutionMetrics.Analyser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

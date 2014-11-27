@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CompatibleSoftware.SolutionMetrics.Analyser;
 
 namespace CompatibleSoftware.SolutionMetrics.Console
 {
@@ -10,6 +11,14 @@ namespace CompatibleSoftware.SolutionMetrics.Console
     {
         static void Main(string[] args)
         {
+            System.Console.WriteLine("Which directory to analyse?");
+
+            var dir = System.Console.ReadLine();
+
+            var analyser = new FileAnalyser(dir);
+            analyser.Run();
+
+            System.Console.ReadLine();
         }
     }
 }
