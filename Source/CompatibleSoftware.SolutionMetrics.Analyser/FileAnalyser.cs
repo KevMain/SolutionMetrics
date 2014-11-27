@@ -18,25 +18,26 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
         {
             var files = new List<string>();
 
-            DirSearch(_directory, files);
+            DirSearch(_directory, files, "*.cs");
+            DirSearch(_directory, files, "*.vb");
 
             var totalLines = files.Sum(file => File.ReadLines(file).Count(line => !String.IsNullOrWhiteSpace(line)));
 
             Console.WriteLine("Lines Of Code: " + totalLines);
         }
 
-        private void DirSearch(string directory, List<String> files)
+        private void DirSearch(string directory, List<String> files, string patternMatch)
         {
             try
             {
-                files.AddRange(Directory.GetFiles(directory, "*.cs"));
+                files.AddRange(Directory.GetFiles(directory, patternMatch));
 
                 var ignoredDirectories = new List<string> {"bin", "obj", "packages"};
 
                 foreach (var d in Directory.GetDirectories(directory))
                 {
                     if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
-                         DirSearch(d, files);
+                        DirSearch(d, files, patternMatch);
                 }
             }
             catch (Exception ex)
