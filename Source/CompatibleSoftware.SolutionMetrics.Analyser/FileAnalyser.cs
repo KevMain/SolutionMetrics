@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser
 {
@@ -14,62 +15,48 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
             _directory = directory;
         }
 
-        public void Run()
+        public SolutionInfo Run()
         {
             var files = new List<string>();
 
             DirSearch(_directory, files, "*.cs");
             DirSearch(_directory, files, "*.vb");
 
-            var totalLines = 0; 
-            var totalComments = 0;
+            IList<CodeLine> codeLines = new List<CodeLine>();
 
-            var inCommentBlock = false;
-
+            var inCommentBlock = false; 
             foreach (var file in files)
             {
                 foreach (var line in File.ReadLines(file))
                 {
-                    totalLines++;
-
-                    if (inCommentBlock || line.Trim().StartsWith("//") || line.Trim().StartsWith("///") || line.Trim().StartsWith("'"))
-                        totalComments++;
-
                     if (!inCommentBlock && line.Trim().StartsWith("/*"))
                         inCommentBlock = true;
 
+                    codeLines.Add(new CodeLine(line, inCommentBlock));
+
                     if (inCommentBlock && line.Trim().EndsWith("*/"))
                         inCommentBlock = false;
-
                 }
             }
 
-            var commentPercent = ((double)totalComments / totalLines) * 100;
+            var totalLines = codeLines.Count();
+            var totalWhitespace = codeLines.Count(line => line.IsWhitespace);
+            var totalComments = codeLines.Count(line => line.IsComment);
 
-            Console.WriteLine("Total Lines: " + totalLines);
-            Console.WriteLine("Lines Of Comments: " + totalComments);
-            Console.WriteLine("Comments Percentage: " + Math.Round(commentPercent, 0) + "%");
+            return new SolutionInfo(totalLines, totalWhitespace, totalComments);
         }
 
         private void DirSearch(string directory, List<String> files, string patternMatch)
         {
-            try
+            files.AddRange(Directory.GetFiles(directory, patternMatch));
+
+            var ignoredDirectories = new List<string> {"bin", "obj", "packages"};
+
+            foreach (var d in Directory.GetDirectories(directory))
             {
-                files.AddRange(Directory.GetFiles(directory, patternMatch));
-
-                var ignoredDirectories = new List<string> {"bin", "obj", "packages"};
-
-                foreach (var d in Directory.GetDirectories(directory))
-                {
-                    if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
-                        DirSearch(d, files, patternMatch);
-                }
+                if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
+                    DirSearch(d, files, patternMatch);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occured - " +  ex.Message);
-            }
-
         }
     }
 }
