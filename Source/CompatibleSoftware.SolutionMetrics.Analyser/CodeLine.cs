@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CompatibleSoftware.SolutionMetrics.Analyser.Comments;
+using System.Linq;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser
 {
@@ -63,14 +64,8 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
             if (string.IsNullOrWhiteSpace(_text))
                 _isWhitespace = true;
 
-            foreach (var comment in _commentIdentifiers)
-            {
-                if (comment.IsMatching(_text))
-                {
-                    _isSingleLineComment = true;
-                    break;
-                }
-            }
+            if(_commentIdentifiers.Any(c => c.IsMatching(_text)))
+                _isSingleLineComment = true;
 
             if (inCommentBlock)
                 _isMultiLineComment = true;
