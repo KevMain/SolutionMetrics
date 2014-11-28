@@ -39,11 +39,12 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
                 }
             }
 
+            var totalFiles = files.Count();
             var totalLines = codeLines.Count();
             var totalWhitespace = codeLines.Count(line => line.IsWhitespace);
             var totalComments = codeLines.Count(line => line.IsComment);
 
-            return new SolutionInfo(totalLines, totalWhitespace, totalComments);
+            return new SolutionInfo(totalFiles, totalLines, totalWhitespace, totalComments);
         }
 
         private void DirSearch(string directory, List<String> files, string patternMatch)
