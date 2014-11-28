@@ -1,7 +1,20 @@
-﻿namespace CompatibleSoftware.SolutionMetrics.Analyser
+﻿using System.Collections.Generic;
+using CompatibleSoftware.SolutionMetrics.Analyser.Comments;
+
+namespace CompatibleSoftware.SolutionMetrics.Analyser
 {
     public class CodeLine
     {
+        /// <summary>
+        /// A list of objects that will check if the line is a recognised comment format
+        /// </summary>
+        private readonly IList<IComment> _commentIdentifiers = new List<IComment>
+            {
+                new XmlComment(),
+                new CSharpComment(),
+                new VbComment()
+            };
+
         /// <summary>
         /// Is this a single line comment
         /// </summary>
@@ -49,9 +62,15 @@
 
             if (string.IsNullOrWhiteSpace(_text))
                 _isWhitespace = true;
-            
-            if (_text.Trim().StartsWith("//") || _text.Trim().StartsWith("///") || _text.Trim().StartsWith("'"))
-                _isSingleLineComment = true;
+
+            foreach (var comment in _commentIdentifiers)
+            {
+                if (comment.IsMatching(_text))
+                {
+                    _isSingleLineComment = true;
+                    break;
+                }
+            }
 
             if (inCommentBlock)
                 _isMultiLineComment = true;

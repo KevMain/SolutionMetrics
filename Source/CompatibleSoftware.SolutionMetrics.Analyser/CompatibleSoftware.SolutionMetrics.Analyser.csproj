@@ -40,7 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeLine.cs" />
+    <Compile Include="Comments\VbComment.cs" />
+    <Compile Include="Comments\CSharpComment.cs" />
+    <Compile Include="Comments\IComment.cs" />
+    <Compile Include="Comments\XmlComment.cs" />
     <Compile Include="FileAnalyser.cs" />
+    <Compile Include="Files\DirectorySearcher.cs" />
     <Compile Include="Metrics\SolutionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
