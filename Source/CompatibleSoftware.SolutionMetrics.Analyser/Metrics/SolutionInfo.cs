@@ -14,6 +14,10 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
         /// </summary>
         public IList<ProjectInfo> Projects { get; private set; }
    
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        /// <param name="name">The name of the solution</param>
         public SolutionInfo(string name)
         {
             Name = name;
@@ -23,7 +27,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
         /// <summary>
         /// Adds a new project to the solution
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="project">The project to add</param>
         public void AddProject(ProjectInfo project)
         {
             Projects.Add(project);

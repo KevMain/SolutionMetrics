@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
 {
@@ -13,9 +9,20 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
         /// </summary>
         public string Name { get; private set; }
 
-        public ProjectInfo(string name)
+        /// <summary>
+        /// The path to the project file
+        /// </summary>
+        public string ProjectPath { get; private set; }
+
+        /// <summary>
+        /// The main constructor
+        /// </summary>
+        /// <param name="name">The name of the project</param>
+        /// <param name="projectPath">The absolute path to the project file</param>
+        public ProjectInfo(string name, string projectPath)
         {
             Name = name;
+            ProjectPath = projectPath;
         }
     }
 }

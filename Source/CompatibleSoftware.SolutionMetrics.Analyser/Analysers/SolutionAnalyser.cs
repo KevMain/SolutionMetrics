@@ -9,6 +9,8 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
         public SolutionInfo Process(string solutionFile)
         {
             var solutionName = Path.GetFileName(solutionFile);
+            
+            var basePath = Path.GetDirectoryName(solutionFile);
 
             var solution = new SolutionInfo(solutionName);
 
@@ -19,12 +21,12 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
                 throw new ApplicationException("Not a valid solution");
             }
 
-            BuildProjectListFromSolution(lines, solution);
+            BuildProjectListFromSolution(lines, solution, basePath);
 
             return solution;
         }
 
-        public void BuildProjectListFromSolution(string[] lines, SolutionInfo solution)
+        public void BuildProjectListFromSolution(string[] lines, SolutionInfo solution, string basePath)
         {
             foreach (var line in lines)
             {
@@ -36,9 +38,13 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
                         throw new ApplicationException("Badly formed Visual Studio Solution file");
                     }
 
+                    //TODO: Meh. refactor this
                     var projectName = projectParts[0].Split('"')[3];
+                    var projectPath = projectParts[1].Trim();
+                    var relativePath = projectPath.Substring(1, projectPath.Length - 2);
+                    var fullPath = basePath + "\\" + relativePath;
 
-                    solution.AddProject(new ProjectInfo(projectName));
+                    solution.AddProject(new ProjectInfo(projectName, fullPath));
                 }
             }
         }

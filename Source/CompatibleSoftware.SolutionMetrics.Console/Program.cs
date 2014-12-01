@@ -27,10 +27,11 @@ namespace CompatibleSoftware.SolutionMetrics.Console
                 stopwatch.Stop();
                 System.Console.WriteLine("********************************************************************");
                 System.Console.WriteLine("Solution Name: " + solutionInfo.Name);
-                foreach (var project in solutionInfo.Projects)
+                foreach (var projectInfo in solutionInfo.Projects)
                 {
-                    System.Console.WriteLine("Project Name: " + project.Name);  
+                    System.Console.WriteLine("Paths: " + projectInfo.ProjectPath);  
                 }
+                System.Console.WriteLine("Number of Projects: " + solutionInfo.Projects.Count);  
                 System.Console.WriteLine("");
                 System.Console.WriteLine("********************************************************************");
             }
