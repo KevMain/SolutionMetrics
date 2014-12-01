@@ -1,37 +1,32 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
 {
     public class SolutionInfo
     {
-        public int TotalFiles { get; private set; }
+        /// <summary>
+        /// The name of the solution
+        /// </summary>
+        public string Name { get; private set; }
 
-        public int AverageLinesPerFile { get; private set; }
-
-        public int TotalLines { get; private set; }
-
-        public int LinesOfCode { get; private set; }
-
-        public int LinesOfWhitespace { get; private set; }
-
-        public int LinesOfComments { get; private set; }
-
-        public double CommentsPercentage { get; private set; }
-
-        public SolutionInfo(int totalFiles, int totalLines, int linesOfWhitespace, int linesOfComments)
+        /// <summary>
+        /// A list of all projects found in the solution
+        /// </summary>
+        public IList<ProjectInfo> Projects { get; private set; }
+   
+        public SolutionInfo(string name)
         {
-            TotalFiles = totalFiles;
-            TotalLines = totalLines;
+            Name = name;
+            Projects = new List<ProjectInfo>();
+        }
 
-            AverageLinesPerFile = Convert.ToInt32((double) totalLines/totalFiles);
-
-            LinesOfWhitespace = linesOfWhitespace;
-            LinesOfComments = linesOfComments;
-            LinesOfCode = totalLines - linesOfWhitespace - linesOfComments;
-
-            var commentPercent = ((double)linesOfComments / totalLines) * 100;
-
-            CommentsPercentage = Math.Round(commentPercent, 2);
+        /// <summary>
+        /// Adds a new project to the solution
+        /// </summary>
+        /// <param name="project"></param>
+        public void AddProject(ProjectInfo project)
+        {
+            Projects.Add(project);
         }
     }
 }

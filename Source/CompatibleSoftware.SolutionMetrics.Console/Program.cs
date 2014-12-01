@@ -22,21 +22,15 @@ namespace CompatibleSoftware.SolutionMetrics.Console
 
                 stopwatch.Start();
 
-                //var directory = new SystemDirectory();
-                //var directorySearcher = new DirectorySearcher(directory);
-                //var solutionInfo = new FileAnalyser(directorySearcher).Process(dir);
-                var solutionInfo = new SolutionAnalyser().Process(@"C:\repos\ALB\Source\_BuildSolution.sln");
+                var solutionInfo = new SolutionAnalyser().Process(dir);
 
                 stopwatch.Stop();
                 System.Console.WriteLine("********************************************************************");
-                System.Console.WriteLine("Total Files: " + solutionInfo.TotalFiles);
-                System.Console.WriteLine("Total Lines: " + solutionInfo.TotalLines);
-                System.Console.WriteLine("Average Lines Per File: " + solutionInfo.AverageLinesPerFile);
-                System.Console.WriteLine("Lines Of Code: " + solutionInfo.LinesOfCode);
-                System.Console.WriteLine("Lines Of Whitespace: " + solutionInfo.LinesOfWhitespace);
-                System.Console.WriteLine("Lines Of Comments: " + solutionInfo.LinesOfComments);
-                System.Console.WriteLine("Comments Percentage: " + solutionInfo.CommentsPercentage + "%");
-                System.Console.WriteLine("Time taken to analyse: " + stopwatch.Elapsed.TotalSeconds);
+                System.Console.WriteLine("Solution Name: " + solutionInfo.Name);
+                foreach (var project in solutionInfo.Projects)
+                {
+                    System.Console.WriteLine("Project Name: " + project.Name);  
+                }
                 System.Console.WriteLine("");
                 System.Console.WriteLine("********************************************************************");
             }

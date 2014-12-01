@@ -45,7 +45,6 @@
     <Compile Include="Comments\CSharpComment.cs" />
     <Compile Include="Comments\IComment.cs" />
     <Compile Include="Comments\XmlComment.cs" />
-    <Compile Include="Analysers\FileAnalyser.cs" />
     <Compile Include="FileSystem\SystemDirectory.cs" />
     <Compile Include="FileSystem\DirectorySearcher.cs" />
     <Compile Include="FileSystem\IDirectory.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="FileTypes\VbClass.cs" />
     <Compile Include="FileTypes\CSharpClass.cs" />
     <Compile Include="FileTypes\IFileType.cs" />
+    <Compile Include="Metrics\ProjectInfo.cs" />
     <Compile Include="Metrics\SolutionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Analysers\SolutionAnalyser.cs" />
