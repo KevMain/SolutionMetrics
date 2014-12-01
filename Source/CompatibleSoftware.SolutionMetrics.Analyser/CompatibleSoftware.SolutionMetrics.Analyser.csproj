@@ -45,7 +45,10 @@
     <Compile Include="Comments\IComment.cs" />
     <Compile Include="Comments\XmlComment.cs" />
     <Compile Include="FileAnalyser.cs" />
-    <Compile Include="Files\DirectorySearcher.cs" />
+    <Compile Include="FileSystem\SystemDirectory.cs" />
+    <Compile Include="FileSystem\DirectorySearcher.cs" />
+    <Compile Include="FileSystem\IDirectory.cs" />
+    <Compile Include="FileSystem\IDirectorySearcher.cs" />
     <Compile Include="Metrics\SolutionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

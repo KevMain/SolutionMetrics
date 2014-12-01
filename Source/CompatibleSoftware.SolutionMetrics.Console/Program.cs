@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using CompatibleSoftware.SolutionMetrics.Analyser;
+using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 
 namespace CompatibleSoftware.SolutionMetrics.Console
 {
@@ -18,7 +19,9 @@ namespace CompatibleSoftware.SolutionMetrics.Console
 
             stopwatch.Start();
 
-            var solutionInfo = new FileAnalyser(dir).Run();
+            var directory = new SystemDirectory();
+            var directorySearcher = new DirectorySearcher(directory);
+            var solutionInfo = new FileAnalyser(directorySearcher).Run(dir);
 
             stopwatch.Stop();
             System.Console.WriteLine("********************************************************************");

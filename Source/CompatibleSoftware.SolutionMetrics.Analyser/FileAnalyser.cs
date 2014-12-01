@@ -2,26 +2,30 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser
 {
     public class FileAnalyser
     {
-        private readonly string _directory;
+        private readonly IDirectorySearcher _directorySearcher;
 
-        public FileAnalyser(string directory)
+        public FileAnalyser(IDirectorySearcher directorySearcher)
         {
-            _directory = directory;
+            if (directorySearcher == null)
+                throw new ArgumentNullException("directorySearcher");
+
+            _directorySearcher = directorySearcher;
         }
 
-        public SolutionInfo Run()
+        public SolutionInfo Run(string directory)
         {
             var files = new List<string>();
 
-            DirSearch(_directory, files, "*.cs");
-            DirSearch(_directory, files, "*.vb");
-
+            files.AddRange(_directorySearcher.DirSearch(directory, "*.cs"));
+            files.AddRange(_directorySearcher.DirSearch(directory, "*.vb"));
+            
             IList<CodeLine> codeLines = new List<CodeLine>();
 
             var inCommentBlock = false; 
@@ -45,19 +49,6 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
             var totalComments = codeLines.Count(line => line.IsComment);
 
             return new SolutionInfo(totalFiles, totalLines, totalWhitespace, totalComments);
-        }
-
-        private void DirSearch(string directory, List<String> files, string patternMatch)
-        {
-            files.AddRange(Directory.GetFiles(directory, patternMatch));
-
-            var ignoredDirectories = new List<string> {"bin", "obj", "packages"};
-
-            foreach (var d in Directory.GetDirectories(directory))
-            {
-                if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
-                    DirSearch(d, files, patternMatch);
-            }
         }
     }
 }
