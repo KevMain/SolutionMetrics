@@ -8,7 +8,7 @@ using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
 {
-    public class FileAnalyser : IAnalyser
+    public class FileAnalyser
     {
         private readonly IDirectorySearcher _directorySearcher;
 
@@ -20,7 +20,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
             _directorySearcher = directorySearcher;
         }
 
-        public SolutionInfo Run(string directory)
+        public SolutionInfo Process(string directory)
         {
             var files = new List<string>();
 
