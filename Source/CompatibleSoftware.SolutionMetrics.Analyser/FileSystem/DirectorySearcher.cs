@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CompatibleSoftware.SolutionMetrics.Analyser.FileTypes;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.FileSystem
 {
@@ -17,18 +18,21 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.FileSystem
             _directory = directory;
         }
 
-        public List<String> DirSearch(string directory, string patternMatch)
+        public List<String> DirSearch(string directory, IList<IFileType> filesTypes)
         {
+            var ignoredDirectories = new List<string> { "bin", "obj", "packages" };
+
             var files = new List<String>();
 
-            files.AddRange(_directory.GetFiles(directory, patternMatch));
-
-            var ignoredDirectories = new List<string> { "bin", "obj", "packages" };
+            foreach (var filesType in filesTypes)
+            {
+                files.AddRange(_directory.GetFiles(directory, filesType.SearchPattern));
+            }
 
             foreach (var d in _directory.GetDirectories(directory))
             {
                 if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
-                    files.AddRange(DirSearch(d, patternMatch));
+                    files.AddRange(DirSearch(d, filesTypes));
             }
 
             return files;

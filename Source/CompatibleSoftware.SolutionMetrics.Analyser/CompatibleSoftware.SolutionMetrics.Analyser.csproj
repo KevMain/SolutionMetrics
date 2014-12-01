@@ -49,6 +49,9 @@
     <Compile Include="FileSystem\DirectorySearcher.cs" />
     <Compile Include="FileSystem\IDirectory.cs" />
     <Compile Include="FileSystem\IDirectorySearcher.cs" />
+    <Compile Include="FileTypes\VbClass.cs" />
+    <Compile Include="FileTypes\CSharpClass.cs" />
+    <Compile Include="FileTypes\IFileType.cs" />
     <Compile Include="Metrics\SolutionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

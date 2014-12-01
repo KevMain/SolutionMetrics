@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
+using CompatibleSoftware.SolutionMetrics.Analyser.FileTypes;
 using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser
@@ -23,8 +24,9 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
         {
             var files = new List<string>();
 
-            files.AddRange(_directorySearcher.DirSearch(directory, "*.cs"));
-            files.AddRange(_directorySearcher.DirSearch(directory, "*.vb"));
+            var filesTypes = new List<IFileType> {new CSharpClass(), new VbClass()};
+
+            files.AddRange(_directorySearcher.DirSearch(directory, filesTypes));
             
             IList<CodeLine> codeLines = new List<CodeLine>();
 
