@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using CompatibleSoftware.SolutionMetrics.Analyser;
+using CompatibleSoftware.SolutionMetrics.Analyser.Analysers;
 using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 
 namespace CompatibleSoftware.SolutionMetrics.Console

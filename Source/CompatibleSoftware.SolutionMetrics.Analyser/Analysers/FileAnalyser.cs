@@ -6,9 +6,9 @@ using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 using CompatibleSoftware.SolutionMetrics.Analyser.FileTypes;
 using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
-namespace CompatibleSoftware.SolutionMetrics.Analyser
+namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
 {
-    public class FileAnalyser
+    public class FileAnalyser : IAnalyser
     {
         private readonly IDirectorySearcher _directorySearcher;
 
