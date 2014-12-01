@@ -29,10 +29,10 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.FileSystem
                 files.AddRange(_directory.GetFiles(directory, filesType.SearchPattern));
             }
 
-            foreach (var d in _directory.GetDirectories(directory))
+            foreach (var childDirectory in _directory.GetDirectories(directory))
             {
-                if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(d).Name, StringComparison.OrdinalIgnoreCase)))
-                    files.AddRange(DirSearch(d, filesTypes));
+                if (ignoredDirectories.All(dir => !dir.Equals(new DirectoryInfo(childDirectory).Name, StringComparison.OrdinalIgnoreCase)))
+                    files.AddRange(DirSearch(childDirectory, filesTypes));
             }
 
             return files;

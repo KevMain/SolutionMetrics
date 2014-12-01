@@ -28,7 +28,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
 
             files.AddRange(_directorySearcher.DirSearch(directory, filesTypes));
             
-            IList<CodeLine> codeLines = new List<CodeLine>();
+            var codeLines = new List<CodeLine>();
 
             var inCommentBlock = false; 
             foreach (var file in files)
