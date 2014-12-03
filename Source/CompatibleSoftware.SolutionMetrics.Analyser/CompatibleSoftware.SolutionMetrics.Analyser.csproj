@@ -39,12 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeLine.cs" />
+    <Compile Include="Analysers\IAnalyser.cs" />
+    <Compile Include="FileSystem\FileReader.cs" />
+    <Compile Include="Metrics\SolutionOverview.cs" />
+    <Compile Include="Structure\CodeLine.cs" />
     <Compile Include="Comments\VbComment.cs" />
     <Compile Include="Comments\CSharpComment.cs" />
     <Compile Include="Comments\IComment.cs" />
     <Compile Include="Comments\XmlComment.cs" />
-    <Compile Include="FileAnalyser.cs" />
     <Compile Include="FileSystem\SystemDirectory.cs" />
     <Compile Include="FileSystem\DirectorySearcher.cs" />
     <Compile Include="FileSystem\IDirectory.cs" />
@@ -52,8 +54,12 @@
     <Compile Include="FileTypes\VbClass.cs" />
     <Compile Include="FileTypes\CSharpClass.cs" />
     <Compile Include="FileTypes\IFileType.cs" />
-    <Compile Include="Metrics\SolutionInfo.cs" />
+    <Compile Include="Structure\CodeFile.cs" />
+    <Compile Include="Structure\ISystemFile.cs" />
+    <Compile Include="Structure\Project.cs" />
+    <Compile Include="Structure\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Analysers\SolutionAnalyser.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,7 +2,7 @@
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
 {
-    public class SolutionInfo
+    public class SolutionOverview
     {
         public int TotalFiles { get; private set; }
 
@@ -18,7 +18,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
 
         public double CommentsPercentage { get; private set; }
 
-        public SolutionInfo(int totalFiles, int totalLines, int linesOfWhitespace, int linesOfComments)
+        public SolutionOverview(int totalFiles, int totalLines, int linesOfWhitespace, int linesOfComments)
         {
             TotalFiles = totalFiles;
             TotalLines = totalLines;

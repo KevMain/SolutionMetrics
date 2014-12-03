@@ -6,7 +6,7 @@ using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 using CompatibleSoftware.SolutionMetrics.Analyser.FileTypes;
 using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
-namespace CompatibleSoftware.SolutionMetrics.Analyser
+namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
 {
     public class FileAnalyser
     {
@@ -20,7 +20,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser
             _directorySearcher = directorySearcher;
         }
 
-        public SolutionInfo Run(string directory)
+        public SolutionInfo Process(string directory)
         {
             var files = new List<string>();
 
