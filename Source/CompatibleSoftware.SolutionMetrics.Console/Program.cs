@@ -14,6 +14,8 @@ namespace CompatibleSoftware.SolutionMetrics.Console
                 System.Console.WriteLine("Which directory to analyse?");
                 var dir = System.Console.ReadLine();
 
+                dir = @"C:\repos\ALB\Source\_BuildSolution.sln";
+
                 System.Console.WriteLine("");
                 System.Console.WriteLine("********************************************************************");
                 System.Console.WriteLine("Analysing directory " + dir);

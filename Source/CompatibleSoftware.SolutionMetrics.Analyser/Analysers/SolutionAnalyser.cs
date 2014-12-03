@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
@@ -21,13 +22,19 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
                 throw new ApplicationException("Not a valid solution");
             }
 
-            BuildProjectListFromSolution(lines, solution, basePath);
-
+            var projects = BuildProjectListFromSolution(lines, basePath);
+            foreach (var project in projects)
+            {
+                solution.AddProject(project);
+            }
+            
             return solution;
         }
 
-        public void BuildProjectListFromSolution(string[] lines, SolutionInfo solution, string basePath)
+        public IList<ProjectInfo> BuildProjectListFromSolution(string[] lines, string basePath)
         {
+            IList<ProjectInfo> projects = new List<ProjectInfo>();
+
             foreach (var line in lines)
             {
                 if (line.StartsWith("Project("))
@@ -44,9 +51,15 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
                     var relativePath = projectPath.Substring(1, projectPath.Length - 2);
                     var fullPath = basePath + "\\" + relativePath;
 
-                    solution.AddProject(new ProjectInfo(projectName, fullPath));
+                    //TODO: Define project types
+                    if (fullPath.Trim().EndsWith(".csproj"))
+                    {
+                        projects.Add(new ProjectInfo(projectName, fullPath));
+                    }
                 }
             }
+
+            return projects;
         }
     }
 }
