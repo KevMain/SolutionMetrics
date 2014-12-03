@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
-namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
+namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
 {
-    public class ProjectInfo
+    public class Project
     {
         /// <summary>
         /// The name of the project
@@ -19,16 +18,32 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
         public string ProjectPath { get; private set; }
 
         /// <summary>
+        /// A list of all code files found in the project
+        /// </summary>
+        public IList<CodeFile> Files { get; private set; }
+
+        /// <summary>
         /// The main constructor
         /// </summary>
         /// <param name="name">The name of the project</param>
         /// <param name="projectPath">The absolute path to the project file</param>
-        public ProjectInfo(string name, string projectPath)
+        public Project(string name, string projectPath)
         {
             Name = name;
             ProjectPath = projectPath;
 
+            Files = new List<CodeFile>();
+
             Process();
+        }
+
+        /// <summary>
+        /// Adds a new file to the project
+        /// </summary>
+        /// <param name="codeFile">The file to add</param>
+        public void AddFile(CodeFile codeFile)
+        {
+            Files.Add(codeFile);
         }
 
         private void Process()
@@ -38,10 +53,18 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
             var contents = ReadProjectFileContents();
 
             var files = ReadFilesFromProjectFile(contents);
+
+            foreach (var codeFile in files)
+            {
+                Console.WriteLine(codeFile.Name + " = " + codeFile.FilePath);
+            }
         }
 
-        private List<string> ReadFilesFromProjectFile(string content)
+        //TODO: Refactor all this
+        private IEnumerable<CodeFile> ReadFilesFromProjectFile(string content)
         {
+            var projectFiles = new List<CodeFile>();
+
             //Special case for UTF byte mark
             if (!content.StartsWith("<"))
             {
@@ -52,13 +75,26 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Metrics
             var projectDocument = new XmlDocument();
             projectDocument.Load(new StringReader(content));
 
+            var mgr = new XmlNamespaceManager(projectDocument.NameTable);
+            mgr.AddNamespace("x", "http://schemas.microsoft.com/developer/msbuild/2003");
+
             XmlNode root = projectDocument.DocumentElement;
             
             if (root != null)
             {
+                var files = root.SelectNodes("//x:Compile", mgr);
+
+                if (files != null)
+                {
+                    foreach (XmlNode file in files)
+                    {
+                        if (file.Attributes != null)
+                            projectFiles.Add(new CodeFile(file.Attributes["Include"].Value));
+                    }
+                }
             }
 
-            return new List<string>();
+            return projectFiles;
         }
 
         //TODO: Move file reading stuff out

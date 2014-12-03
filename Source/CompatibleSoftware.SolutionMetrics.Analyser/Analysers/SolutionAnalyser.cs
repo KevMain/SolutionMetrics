@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
+using CompatibleSoftware.SolutionMetrics.Analyser.Structure;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
 {
     public class SolutionAnalyser : IAnalyser
     {
-        public SolutionInfo Process(string solutionFile)
+        public Solution Process(string solutionFile)
         {
             var solutionName = Path.GetFileName(solutionFile);
             
             var basePath = Path.GetDirectoryName(solutionFile);
 
-            var solution = new SolutionInfo(solutionName);
+            var solution = new Solution(solutionName);
 
             var lines = File.ReadAllLines(solutionFile);
 
@@ -31,9 +31,9 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
             return solution;
         }
 
-        public IList<ProjectInfo> BuildProjectListFromSolution(string[] lines, string basePath)
+        public IList<Project> BuildProjectListFromSolution(string[] lines, string basePath)
         {
-            IList<ProjectInfo> projects = new List<ProjectInfo>();
+            IList<Project> projects = new List<Project>();
 
             foreach (var line in lines)
             {
@@ -54,7 +54,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
                     //TODO: Define project types
                     if (fullPath.Trim().EndsWith(".csproj"))
                     {
-                        projects.Add(new ProjectInfo(projectName, fullPath));
+                        projects.Add(new Project(projectName, fullPath));
                     }
                 }
             }

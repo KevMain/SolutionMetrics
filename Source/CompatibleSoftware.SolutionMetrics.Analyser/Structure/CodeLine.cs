@@ -2,7 +2,7 @@
 using CompatibleSoftware.SolutionMetrics.Analyser.Comments;
 using System.Linq;
 
-namespace CompatibleSoftware.SolutionMetrics.Analyser
+namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
 {
     public class CodeLine
     {
