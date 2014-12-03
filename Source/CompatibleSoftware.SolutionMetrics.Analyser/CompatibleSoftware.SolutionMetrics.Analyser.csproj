@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Analysers\IAnalyser.cs" />
     <Compile Include="FileSystem\FileReader.cs" />
+    <Compile Include="Metrics\SolutionOverview.cs" />
     <Compile Include="Structure\CodeLine.cs" />
     <Compile Include="Comments\VbComment.cs" />
     <Compile Include="Comments\CSharpComment.cs" />

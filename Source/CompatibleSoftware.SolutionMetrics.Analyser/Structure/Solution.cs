@@ -32,7 +32,6 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
             Projects = ReadProjectsFromSolutionFile();
         }
 
-        //TODO: Refactor this
         private IList<Project> ReadProjectsFromSolutionFile()
         {
             IList<Project> projects = new List<Project>();

@@ -1,9 +1,9 @@
-﻿using CompatibleSoftware.SolutionMetrics.Analyser.Structure;
+﻿using CompatibleSoftware.SolutionMetrics.Analyser.Metrics;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Analysers
 {
     public interface IAnalyser
     {
-        Solution Process(string solutionFile);
+        SolutionOverview Process(string solutionFile);
     }
 }

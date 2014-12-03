@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using CompatibleSoftware.SolutionMetrics.Analyser.Analysers;
-using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 
 namespace CompatibleSoftware.SolutionMetrics.Console
 {
@@ -13,8 +12,6 @@ namespace CompatibleSoftware.SolutionMetrics.Console
             {
                 System.Console.WriteLine("Which directory to analyse?");
                 var dir = System.Console.ReadLine();
-
-                dir = @"C:\repos\ALB\Source\_BuildSolution.sln";
 
                 System.Console.WriteLine("");
                 System.Console.WriteLine("********************************************************************");
@@ -28,8 +25,14 @@ namespace CompatibleSoftware.SolutionMetrics.Console
 
                 stopwatch.Stop();
                 System.Console.WriteLine("********************************************************************");
-                System.Console.WriteLine("Solution Name: " + solutionInfo.Name);
-                System.Console.WriteLine("Number of Projects: " + solutionInfo.Projects.Count);
+                System.Console.WriteLine("Total Files: " + solutionInfo.TotalFiles);
+                System.Console.WriteLine("Total Lines: " + solutionInfo.TotalLines);
+                System.Console.WriteLine("Average Lines Per File: " + solutionInfo.AverageLinesPerFile);
+                System.Console.WriteLine("Lines Of Code: " + solutionInfo.LinesOfCode);
+                System.Console.WriteLine("Lines Of Whitespace: " + solutionInfo.LinesOfWhitespace);
+                System.Console.WriteLine("Lines Of Comments: " + solutionInfo.LinesOfComments);
+                System.Console.WriteLine("Comments Percentage: " + solutionInfo.CommentsPercentage + "%");
+                System.Console.WriteLine("Time taken to analyse: " + stopwatch.Elapsed.TotalSeconds);
                 System.Console.WriteLine("");
                 System.Console.WriteLine("********************************************************************");
             }

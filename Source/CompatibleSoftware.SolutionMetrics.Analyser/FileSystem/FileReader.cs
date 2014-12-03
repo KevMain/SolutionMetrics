@@ -6,8 +6,6 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.FileSystem
     {
         public static string ReadFileContents(string filePath)
         {
-            //TODO: Error handling if file not available
-
             var fileStream = File.OpenRead(filePath);
 
             var contents = new StringWriter();
