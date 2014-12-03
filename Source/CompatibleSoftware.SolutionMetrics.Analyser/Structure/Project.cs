@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using CompatibleSoftware.SolutionMetrics.Analyser.FileSystem;
 
 namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
 {
-    public class Project
+    public class Project : ISystemFile
     {
         /// <summary>
         /// The name of the project
@@ -15,7 +16,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <summary>
         /// The path to the project file
         /// </summary>
-        public string ProjectPath { get; private set; }
+        public string FilePath { get; private set; }
 
         /// <summary>
         /// A list of all code files found in the project
@@ -26,15 +27,13 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// The main constructor
         /// </summary>
         /// <param name="name">The name of the project</param>
-        /// <param name="projectPath">The absolute path to the project file</param>
-        public Project(string name, string projectPath)
+        /// <param name="filePath">The absolute path to the project file</param>
+        public Project(string name, string filePath)
         {
             Name = name;
-            ProjectPath = projectPath;
-
-            Files = new List<CodeFile>();
-
-            Process();
+            FilePath = filePath;
+            
+            Files = ReadFilesFromProjectFile();
         }
 
         /// <summary>
@@ -46,23 +45,14 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
             Files.Add(codeFile);
         }
 
-        private void Process()
+        /// <summary>
+        /// Read the project file and create a list of included code files
+        /// </summary>
+        /// <returns>A list of code files in the project</returns>
+        private IList<CodeFile> ReadFilesFromProjectFile()
         {
-            Console.WriteLine("Project.." + ProjectPath);
-
-            var contents = ReadProjectFileContents();
-
-            var files = ReadFilesFromProjectFile(contents);
-
-            foreach (var codeFile in files)
-            {
-                Console.WriteLine(codeFile.Name + " = " + codeFile.FilePath);
-            }
-        }
-
-        //TODO: Refactor all this
-        private IEnumerable<CodeFile> ReadFilesFromProjectFile(string content)
-        {
+            var content = FileReader.ReadFileContents(FilePath);
+            
             var projectFiles = new List<CodeFile>();
 
             //Special case for UTF byte mark
@@ -89,39 +79,19 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
                     foreach (XmlNode file in files)
                     {
                         if (file.Attributes != null)
-                            projectFiles.Add(new CodeFile(file.Attributes["Include"].Value));
+                        {
+                            var fullPath = Path.GetDirectoryName(FilePath) + "\\" + file.Attributes["Include"].Value;
+
+                            if (!fullPath.Contains(".."))
+                            {
+                                projectFiles.Add(new CodeFile(fullPath));
+                            }
+                        }
                     }
                 }
             }
 
             return projectFiles;
         }
-
-        //TODO: Move file reading stuff out
-        private string ReadProjectFileContents()
-        {
-            //TODO: Error handling if file not available
-
-            var fileStream = File.OpenRead(ProjectPath);
-
-            var contents = new StringWriter();
-
-            var bytes = new byte[1000];
-
-            var bytesRead = fileStream.Read(bytes, 0, bytes.Length);
-
-            while (bytesRead > 0)
-            {
-                for (var i = 0; i < bytesRead; i++)
-                {
-                    contents.Write((char)bytes[i]);
-                }
-                bytesRead = fileStream.Read(bytes, 0, bytes.Length);
-            }
-
-            fileStream.Close();
-
-            return contents.ToString();
-        }    
     }
 }

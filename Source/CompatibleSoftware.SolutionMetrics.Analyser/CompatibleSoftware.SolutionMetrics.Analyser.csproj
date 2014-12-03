@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysers\IAnalyser.cs" />
+    <Compile Include="FileSystem\FileReader.cs" />
     <Compile Include="Structure\CodeLine.cs" />
     <Compile Include="Comments\VbComment.cs" />
     <Compile Include="Comments\CSharpComment.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="FileTypes\CSharpClass.cs" />
     <Compile Include="FileTypes\IFileType.cs" />
     <Compile Include="Structure\CodeFile.cs" />
+    <Compile Include="Structure\ISystemFile.cs" />
     <Compile Include="Structure\Project.cs" />
     <Compile Include="Structure\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
