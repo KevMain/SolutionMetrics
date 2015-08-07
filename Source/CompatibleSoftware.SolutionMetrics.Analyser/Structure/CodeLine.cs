@@ -38,11 +38,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <summary>
         /// Is this line whitespace
         /// </summary>
-        public bool IsWhitespace
-        {
-            get { return _isWhitespace; }
-        }
-        private readonly bool _isWhitespace;
+        public bool IsWhitespace { get; }
 
         /// <summary>
         /// Is this a comment
@@ -62,7 +58,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
             _text = text;
 
             if (string.IsNullOrWhiteSpace(_text))
-                _isWhitespace = true;
+                IsWhitespace = true;
 
             if(_commentIdentifiers.Any(c => c.IsMatching(_text)))
                 _isSingleLineComment = true;
