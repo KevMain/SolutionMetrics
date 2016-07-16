@@ -68,29 +68,24 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
             mgr.AddNamespace("x", "http://schemas.microsoft.com/developer/msbuild/2003");
 
             XmlNode root = projectDocument.DocumentElement;
-            
-            if (root != null)
+
+          var files = root?.SelectNodes("//x:Compile", mgr);
+
+          if (files == null) return projectFiles;
+
+          foreach (XmlNode file in files)
+          {
+            if (file.Attributes == null) continue;
+
+            var fullPath = Path.GetDirectoryName(FilePath) + "\\" + file.Attributes["Include"].Value;
+
+            if (!fullPath.Contains(".."))
             {
-                var files = root.SelectNodes("//x:Compile", mgr);
-
-                if (files != null)
-                {
-                    foreach (XmlNode file in files)
-                    {
-                        if (file.Attributes != null)
-                        {
-                            var fullPath = Path.GetDirectoryName(FilePath) + "\\" + file.Attributes["Include"].Value;
-
-                            if (!fullPath.Contains(".."))
-                            {
-                                projectFiles.Add(new CodeFile(fullPath));
-                            }
-                        }
-                    }
-                }
+              projectFiles.Add(new CodeFile(fullPath));
             }
+          }
 
-            return projectFiles;
+          return projectFiles;
         }
     }
 }

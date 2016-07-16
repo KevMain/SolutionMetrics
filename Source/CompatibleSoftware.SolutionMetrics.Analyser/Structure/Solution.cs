@@ -9,12 +9,12 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <summary>
         /// The name of the solution
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// The absolute path to the file
         /// </summary>
-        public string FilePath { get; private set; }
+        public string FilePath { get; }
 
         /// <summary>
         /// A list of all projects found in the solution

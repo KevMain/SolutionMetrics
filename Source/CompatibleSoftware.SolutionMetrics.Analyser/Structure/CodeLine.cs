@@ -29,11 +29,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <summary>
         /// The actual text of this line
         /// </summary>
-        public string Text
-        {
-            get { return _text; }
-        }
-        private readonly string _text;
+        public string Text { get; }
 
         /// <summary>
         /// Is this line whitespace
@@ -43,10 +39,7 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <summary>
         /// Is this a comment
         /// </summary>
-        public bool IsComment
-        {
-            get { return _isSingleLineComment || _isMultiLineComment; }
-        }
+        public bool IsComment => _isSingleLineComment || _isMultiLineComment;
 
         /// <summary>
         /// Constructs a new line of code 
@@ -55,12 +48,12 @@ namespace CompatibleSoftware.SolutionMetrics.Analyser.Structure
         /// <param name="inCommentBlock">Is this line inside a comment block</param>
         public CodeLine(string text, bool inCommentBlock)
         {
-            _text = text;
+            Text = text;
 
-            if (string.IsNullOrWhiteSpace(_text))
+            if (string.IsNullOrWhiteSpace(Text))
                 IsWhitespace = true;
 
-            if(_commentIdentifiers.Any(c => c.IsMatching(_text)))
+            if(_commentIdentifiers.Any(c => c.IsMatching(Text)))
                 _isSingleLineComment = true;
 
             if (inCommentBlock)
